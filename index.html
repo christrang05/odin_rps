@@ -10,14 +10,34 @@
     // prompt the user to type rock paper or scissors
     // make a function that generates random computer choice rock paper or scissors
     // write a looping function that takes both inputs and returns the winner of the round 
-   function getComputerChoice() {
+console.log("Rock Paper Scissors Game!")
+let playerSelection;
+function userInput() {
+    playerSelection = prompt("Player Input: ")
+    switch (playerSelection.toLowerCase()) {
+        case "rock":
+            break;
+        case "paper":
+            break;
+        case "scissors":
+            break;
+        default:
+            console.log("Invalid Response. Try Again.")
+            userInput();
+            break;
+    }
+}
+userInput();
+console.log(playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1))
 
-   }
+function getComputerChoice() {
 
-   function playRound(playerSelection, computerSelection) {
+}
 
-   }
+function playRound(playerSelection, computerSelection) {
+    
+}
 
-   </script>
+</script>
 </body>
 </html>
