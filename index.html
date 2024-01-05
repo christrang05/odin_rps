@@ -11,8 +11,6 @@
 // make a function that generates random computer choice rock paper or scissors
 // write a looping function that takes both inputs and returns the winner of the round 
 console.log("Rock Paper Scissors Game!")
-let playerSelection;
-let computerSelection = getComputerChoice();
 
 function getComputerChoice() {
     const choices = ["rock", "paper", "scissors"];
@@ -21,29 +19,60 @@ function getComputerChoice() {
 }
 
 function userInput() {
-    playerSelection = prompt("Player Input: ")
-    switch (playerSelection.toLowerCase()) {
-        case "rock":
-            break;
-        case "paper":
-            break;
-        case "scissors":
-            break;
-        default:
-            console.log("Invalid Response. Try Again.")
-            userInput();
-            break;
+    let playerSelection = prompt("Player Input: rock, paper, or scissors");
+    if (playerSelection && ["rock", "paper", "scissors"].includes(playerSelection.toLowerCase())) {
+            return playerSelection.toLowerCase();
+        } else {
+            console.log("Invalid Response. Try Again.");
+            return userInput();
     }
 }
 
-getComputerChoice();
-userInput();
-console.log(playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1))
-console.log(computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1))
-
 function playRound(playerSelection, computerSelection) {
-    
+    switch (playerSelection + computerSelection) {
+            case "rockpaper":
+            case "paperscissors":
+            case "scissorsrock":
+                return "lose";
+            case "rockscissors":
+            case "paperrock":
+            case "scissorspaper":
+                return "win";
+            default:
+                return "draw";
+    }
 }
+
+function game() {
+    let playerScore = 0;
+    let computerScore = 0;
+
+    for (let i = 0; i < 99; i++) {
+        if (playerScore === 3) {
+            break;
+            console.log("Congratulations! You won the best of five game!");
+        } else if (computerScore === 3) {
+            console.log("Sorry, you lost the best of five game.");
+            break
+        } 
+        
+        let playerSelection = userInput();
+        let computerSelection =getComputerChoice();
+        console.log("Computer's choice: ", computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1));
+
+        let result = (playRound(playerSelection, computerSelection));
+        if (result === "win") {
+            playerScore++;
+            console.log("You Win! " + playerSelection + " beats " + computerSelection + ". Score: " + playerScore + "-" + computerScore);
+            } else if (result === "lose") {
+                computerScore++;
+                console.log("You Lose! " + computerSelection + " beats " + playerSelection + ". Score: " + playerScore + "-" + computerScore);
+            } else {
+                console.log("It's a draw! The Score: " + playerScore + "-" + computerScore);
+            }
+    }
+}
+game();
 
 </script>
 </body>
