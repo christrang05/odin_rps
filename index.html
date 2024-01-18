@@ -3,29 +3,81 @@
 <head>
   <meta charset="UTF-8">
   <title>Page Title</title>
+  <style>
+    * {
+        background-color: beige;
+    }
+
+    button {
+        background-color: white;
+        color: gray;
+    }
+    
+    body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: 'Times New Roman', Times, serif;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .game {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .game button {
+        margin: 10px;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    .score {
+        margin-top: 20px;
+        font-size: 20px;
+    }
+
+    .result {
+        margin-top: 40px;
+        font-size: 20px;
+    }
+
+  </style>
 </head>
 <body>
+    <div class="game">
+        <div class="score">Player Score: 0 - Computer Score: 0</div>
+        <div class="result">Make your choice</div>
+        <button class="rock">rock</button>
+        <button class="paper">paper</button>
+        <button class="scissors">scissors</button>
+    </div>
   <script>
 // Your JavaScript goes here!
 // prompt the user to type rock paper or scissors
 // make a function that generates random computer choice rock paper or scissors
 // write a looping function that takes both inputs and returns the winner of the round 
-console.log("Rock Paper Scissors Game!")
+let playerScore = 0;
+let computerScore = 0;
+const scoreDiv = document.querySelector('.score');
+const resultDiv = document.querySelector('.result');
+
+document.querySelector('.rock').addEventListener('click', function() {
+    playGame('rock');
+})
+
+document.querySelector('.paper').addEventListener('click', function() {
+    playGame('paper');
+})
+
+document.querySelector('.scissors').addEventListener('click', function() {
+    playGame('scissors');
+})
 
 function getComputerChoice() {
     const choices = ["rock", "paper", "scissors"];
     const randomIndex = Math.floor(Math.random() * choices.length);
     return choices[randomIndex];
-}
-
-function userInput() {
-    let playerSelection = prompt("Player Input: rock, paper, or scissors");
-    if (playerSelection && ["rock", "paper", "scissors"].includes(playerSelection.toLowerCase())) {
-            return playerSelection.toLowerCase();
-        } else {
-            console.log("Invalid Response. Try Again.");
-            return userInput();
-    }
 }
 
 function playRound(playerSelection, computerSelection) {
@@ -43,36 +95,24 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-function game() {
-    let playerScore = 0;
-    let computerScore = 0;
+function playGame(playerSelection) {
+    let computerSelection = getComputerChoice();
+    let result = (playRound(playerSelection, computerSelection));
 
-    for (let i = 0; i < 99; i++) {
-        if (playerScore === 3) {
-            break;
-            console.log("Congratulations! You won the best of five game!");
-        } else if (computerScore === 3) {
-            console.log("Sorry, you lost the best of five game.");
-            break
-        } 
-        
-        let playerSelection = userInput();
-        let computerSelection =getComputerChoice();
-        console.log("Computer's choice: ", computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1));
-
-        let result = (playRound(playerSelection, computerSelection));
-        if (result === "win") {
-            playerScore++;
-            console.log("You Win! " + playerSelection + " beats " + computerSelection + ". Score: " + playerScore + "-" + computerScore);
-            } else if (result === "lose") {
-                computerScore++;
-                console.log("You Lose! " + computerSelection + " beats " + playerSelection + ". Score: " + playerScore + "-" + computerScore);
-            } else {
-                console.log("It's a draw! The Score: " + playerScore + "-" + computerScore);
-            }
+    if (result === "win") {
+        playerScore++;
+    } else if (result === "lose") {
+        computerScore++;
+    }
+    scoreDiv.textContent = `Player Score: ${playerScore} - Computer Score: ${computerScore}`;
+    resultDiv.textContent = `You chose ${playerSelection}, computer chose ${computerSelection}. You ${result}!`;
+    if (playerScore === 5 || computerScore === 5) {
+        let finalResult = playerScore === 5 ? "Congratulations! You won the game!" : "Sorry, you lost the game.";
+        resultDiv.textContent = finalResult;
+        playerScore = 0;
+        computerScore = 0;
     }
 }
-game();
 
 </script>
 </body>
